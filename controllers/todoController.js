@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser')
 
-const data = [
+let data = [
     {
         item: 'get milk'
     },
@@ -23,7 +23,10 @@ module.exports = function(app){
         res.json({todos: data})
     })
 
-    app.delete('/todo', function(req, res){
-
+    app.delete('/todo/:item', function(req, res){
+        data = data.filter(function(todo){
+            return todo.item.replace(/ /g, '-') !== req.params.item
+        })
+        res.json({todos: data})
     })
 }
